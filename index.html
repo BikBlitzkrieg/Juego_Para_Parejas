@@ -3,151 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Parejas - Progresivo</title>
+    <title>Juego Sensual - Parejas y Grupos</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Pantalla de Advertencia -->
-        <div id="warningScreen" class="screen active">
-            <h1>⚠️ Advertencia Importante</h1>
-            <div class="warning-box">
-                <h3>Antes de comenzar, lean esto:</h3>
-                <ul>
-                    <li><strong>Consentimiento:</strong> Todos los participantes deben estar de acuerdo. Cualquiera puede detener el juego en cualquier momento.</li>
-                    <li><strong>Alcohol:</strong> NO se recomienda jugar bajo efectos del alcohol. El consentimiento debe ser claro y consciente.</li>
-                    <li><strong>Límites:</strong> Establezcan límites claros ANTES de empezar. Respeten siempre las zonas de confort.</li>
-                    <li><strong>Privacidad:</strong> Lo que pasa en el juego queda entre los participantes.</li>
-                    <li><strong>Comunicación:</strong> Hablen antes, durante y después. La comunicación es clave.</li>
-                    <li><strong>Mayores de edad:</strong> Solo para adultos mayores de 18 años.</li>
-                </ul>
-            </div>
-            <div class="checkbox-container">
-                <input type="checkbox" id="consentCheck">
-                <label for="consentCheck">Entendemos y aceptamos estas condiciones. Todos somos mayores de edad y estamos aquí por decisión propia.</label>
-            </div>
-            <button id="acceptWarning" disabled>Continuar</button>
+    <!-- Pantalla de Advertencia -->
+    <div id="consent-screen" class="screen active">
+        <div class="warning-box">
+            <h1>⚠️ ADVERTENCIA</h1>
+            <p>Este juego contiene contenido sexual explícito y está diseñado exclusivamente para adultos mayores de 18 años.</p>
+            <p>Al continuar, confirmas que:</p>
+            <ul>
+                <li>Eres mayor de 18 años</li>
+                <li>Aceptas participar voluntariamente</li>
+                <li>Todos los participantes son adultos que consienten</li>
+            </ul>
+            <label class="consent-checkbox">
+                <input type="checkbox" id="consent-check">
+                <span>Confirmo que soy mayor de 18 años y acepto los términos</span>
+            </label>
+            <button id="accept-btn" class="btn btn-primary" disabled 
+                    onclick="document.getElementById('consent-check').checked && showCategorySelection()">
+                Continuar
+            </button>
         </div>
+    </div>
 
-        <!-- Pantalla de Configuración -->
-        <div id="setupScreen" class="screen">
-            <h1>🎲 Configuración del Juego</h1>
+    <!-- Selección de Categoría -->
+    <div id="category-screen" class="screen">
+        <h1>Selecciona la Categoría</h1>
+        <div class="category-buttons">
+            <button onclick="showPlayerSetup('couple')" class="btn btn-category">
+                💑 PAREJA
+            </button>
+            <button onclick="showPlayerSetup('group')" class="btn btn-category">
+                👥 GRUPO
+            </button>
+        </div>
+    </div>
+
+    <!-- Configuración de Jugadores -->
+    <div id="player-setup" class="screen">
+        <h2>Configuración de Jugadores</h2>
+        <div class="player-config">
+            <label for="player-count">Número de jugadores:</label>
+            <select id="player-count">
+                <option value="2">2 jugadores</option>
+                <option value="3">3 jugadores</option>
+                <option value="4">4 jugadores</option>
+                <option value="5">5 jugadores</option>
+                <option value="6">6 jugadores</option>
+            </select>
             
-            <!-- Selección de Modo -->
-            <div style="margin: 20px 0;">
-                <h2>Selecciona el modo de juego:</h2>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0;">
-                    <button onclick="selectMode('couple')" id="coupleBtn" style="padding: 20px;">
-                        💑 Modo Pareja<br>
-                        <small style="font-size: 0.8em; opacity: 0.9;">(2 personas)</small>
-                    </button>
-                    <button onclick="selectMode('group')" id="groupBtn" style="padding: 20px;">
-                        👥 Modo Grupo<br>
-                        <small style="font-size: 0.8em; opacity: 0.9;">(3+ personas)</small>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Setup de Participantes -->
-            <div id="playerSetupSection" style="display: none;">
-                <h2>Agregar Participantes</h2>
-                <p style="color: #666; margin-bottom: 15px;" id="participantInstructions"></p>
-                <div class="player-setup">
-                    <div class="player-input">
-                        <input type="text" id="playerName" placeholder="Nombre del participante">
-                        <button onclick="addPlayer()">Agregar</button>
-                    </div>
-                    <div class="player-list" id="playerList"></div>
-                </div>
-                <button id="continueToIntensity" onclick="goToIntensitySelection()" disabled>Continuar</button>
-            </div>
-        </div>
-
-        <!-- Pantalla de Selección de Intensidad -->
-        <div id="intensityScreen" class="screen">
-            <h1>🔥 Nivel de Intensidad</h1>
-            <p style="text-align: center; color: #666; margin: 20px 0; font-size: 1.1em;">
-                Selecciona qué tipo de retos quieres en el juego:
-            </p>
-            <div style="margin: 30px 0;">
-                <button onclick="selectIntensity('soft')" style="background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%); padding: 25px; margin: 10px 0; font-size: 1.2em;">
-                    😊 SOFT<br>
-                    <small style="font-size: 0.8em; opacity: 0.9;">Coqueteo ligero, besos suaves, caricias sobre ropa</small>
-                </button>
-                <button onclick="selectIntensity('sensual')" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 25px; margin: 10px 0; font-size: 1.2em;">
-                    🔥 SENSUAL<br>
-                    <small style="font-size: 0.8em; opacity: 0.9;">Besos apasionados, caricias íntimas, toques sensuales</small>
-                </button>
-                <button onclick="selectIntensity('hardcore')" style="background: linear-gradient(135deg, #c44569 0%, #780206 100%); padding: 25px; margin: 10px 0; font-size: 1.2em;">
-                    🌶️ HARDCORE<br>
-                    <small style="font-size: 0.8em; opacity: 0.9;">Sin límites, todo vale</small>
-                </button>
-            </div>
-            <button class="secondary" onclick="showScreen('setupScreen')" style="background: #6c757d;">Volver</button>
-        </div>
-
-        <!-- Pantalla del Juego -->
-        <div id="gameScreen" class="screen">
-            <!-- Paso 1: Girar ruleta para seleccionar jugador (SOLO GRUPO) -->
-            <div id="rouletteStep">
-                <h2 style="text-align: center; margin: 20px 0;" id="rouletteTitle">Gira la ruleta para elegir jugador:</h2>
-                <div class="roulette-container">
-                    <div class="roulette-arrow"></div>
-                    <div class="roulette" id="roulette">
-                        <canvas id="rouletteCanvas" width="320" height="320"></canvas>
-                    </div>
-                </div>
-                <div class="spin-button-container">
-                    <button onclick="spinRoulette()" id="spinButton" style="font-size: 1.2em; padding: 20px;">🎯 Girar Ruleta</button>
-                </div>
-                
-                <!-- Resultado del giro -->
-                <div id="spinResult" style="display: none;">
-                    <div class="selected-player-display" style="font-size: 1.5em;">
-                        ¡Le toca a: <span id="spinResultPlayer"></span>!
-                    </div>
-                    <button onclick="goToCategories()" style="font-size: 1.2em; padding: 20px;">Continuar →</button>
-                </div>
-            </div>
-
-            <!-- Paso 2: Jugador seleccionado elige categoría -->
-            <div id="categoryStep" style="display: none;">
-                <div class="selected-player-display">
-                    Turno de: <span id="selectedPlayerName"></span>
-                </div>
-                <h2 style="text-align: center; margin: 20px 0;">Elige una categoría:</h2>
-                <div class="category-buttons">
-                    <button class="category-btn" onclick="selectCategory('reto')">🔥 Reto</button>
-                    <button class="category-btn" onclick="selectCategory('verdad')">💭 Verdad</button>
-                </div>
-            </div>
-
-            <!-- Paso 3: Mostrar el reto/verdad -->
-            <div id="challengeDisplay" style="display: none;">
-                <div class="selected-player-display">
-                    <span id="selectedPlayer"></span>
-                </div>
-                <div class="challenge-display">
-                    <h3 id="challengeCategory"></h3>
-                    <p id="challengeText"></p>
-                </div>
-                <button onclick="nextTurn()">Siguiente Turno</button>
-                <button class="secondary" onclick="restartGame()">🔄 Reiniciar Juego</button>
-            </div>
+            <div id="player-names"></div>
+            
+            <button onclick="setupPlayers()" class="btn btn-primary">Continuar</button>
+            <button onclick="backToMenu()" class="btn btn-secondary">Volver</button>
         </div>
     </div>
 
-    <!-- Modal personalizado -->
-    <div id="modalOverlay" class="modal-overlay">
-        <div class="modal-content">
-            <h3 id="modalTitle"></h3>
-            <p id="modalMessage"></p>
-            <div class="modal-buttons" id="modalButtons"></div>
+    <!-- Selección de Modo -->
+    <div id="mode-screen" class="screen">
+        <h1>Selecciona el Nivel</h1>
+        <div class="mode-buttons">
+            <button onclick="selectMode('soft')" class="btn btn-mode soft">
+                😊 SOFT
+                <span class="mode-description">Caricias, besos, contacto suave</span>
+            </button>
+            <button onclick="selectMode('sensual')" class="btn btn-mode sensual">
+                🔥 SENSUAL
+                <span class="mode-description">Más atrevido, ropa interior</span>
+            </button>
+            <button onclick="selectMode('hardcore')" class="btn btn-mode hardcore">
+                💥 HARDCORE
+                <span class="mode-description">Sin límites, máxima intensidad</span>
+            </button>
         </div>
+        <button onclick="backToMenu()" class="btn btn-secondary">Volver</button>
     </div>
 
-    <!-- IMPORTANTE: Cargar challenges ANTES de app.js -->
+    <!-- Pantalla de Juego -->
+    <div id="game-screen" class="screen">
+        <div class="game-header">
+            <button onclick="backToMenu()" class="btn-back">← Menú</button>
+            <div id="mode-indicator" class="mode-indicator"></div>
+        </div>
+
+        <!-- Cronómetro -->
+        <div id="timer-container" class="timer-container">
+            <div id="timer-display" class="timer-display">0:00</div>
+            <div class="timer-controls">
+                <button id="timer-button" class="btn btn-timer" onclick="togglePause()">⏸ Pausar</button>
+                <button class="btn btn-timer-stop" onclick="stopTimer()">⏹ Detener</button>
+            </div>
+        </div>
+
+        <!-- Ruleta -->
+        <div id="wheel" class="wheel">
+            <div class="wheel-spinner">🎰</div>
+        </div>
+
+        <!-- Reto/Verdad -->
+        <div id="challenge-text" class="challenge-text"></div>
+
+        <!-- Botón de inicio de cronómetro -->
+        <button id="timer-start-btn" class="btn btn-timer-start">
+            ⏱️ Iniciar Cronómetro
+        </button>
+
+        <!-- Botón Siguiente -->
+        <button onclick="spinWheel()" class="btn btn-primary btn-next">
+            Siguiente Reto
+        </button>
+    </div>
+
     <script src="challenges.js"></script>
     <script src="app.js"></script>
+    <script>
+        // Habilitar botón solo si checkbox está marcado
+        document.getElementById('consent-check').addEventListener('change', function() {
+            document.getElementById('accept-btn').disabled = !this.checked;
+        });
+    </script>
 </body>
 </html>
