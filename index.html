@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego Sensual - Parejas y Grupos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Pantalla de Advertencia -->
+    <div id="consent-screen" class="screen active">
+        <div class="warning-box">
+            <h1>⚠️ ADVERTENCIA</h1>
+            <p>Este juego contiene contenido sexual explícito y está diseñado exclusivamente para adultos mayores de 18 años.</p>
+            <p>Al continuar, confirmas que:</p>
+            <ul>
+                <li>Eres mayor de 18 años</li>
+                <li>Aceptas participar voluntariamente</li>
+                <li>Todos los participantes son adultos que consienten</li>
+            </ul>
+            <label class="consent-checkbox">
+                <input type="checkbox" id="consent-check">
+                <span>Confirmo que soy mayor de 18 años y acepto los términos</span>
+            </label>
+            <button id="accept-btn" class="btn btn-primary" disabled 
+                    onclick="document.getElementById('consent-check').checked && showCategorySelection()">
+                Continuar
+            </button>
+        </div>
+    </div>
+
+    <!-- Selección de Categoría -->
+    <div id="category-screen" class="screen">
+        <h1>Selecciona la Categoría</h1>
+        <div class="category-buttons">
+            <button onclick="showPlayerSetup('couple')" class="btn btn-category">
+                💑 PAREJA
+            </button>
+            <button onclick="showPlayerSetup('group')" class="btn btn-category">
+                👥 GRUPO
+            </button>
+        </div>
+    </div>
+
+    <!-- Configuración de Jugadores -->
+    <div id="player-setup" class="screen">
+        <h2>Configuración de Jugadores</h2>
+        <div class="player-config">
+            <div id="player-names"></div>
+            
+            <button id="add-player-btn" class="btn btn-add-player" onclick="addPlayerInput()">
+                ➕ Agregar Jugador
+            </button>
+            
+            <button onclick="setupPlayers()" class="btn btn-primary">Continuar</button>
+            <button onclick="backFromPlayerSetup()" class="btn btn-secondary">Volver</button>
+        </div>
+    </div>
+
+    <!-- Selección de Modo -->
+    <div id="mode-screen" class="screen">
+        <h1>Selecciona el Nivel</h1>
+        <div class="mode-buttons">
+            <button onclick="selectMode('soft')" class="btn btn-mode soft">
+                😊 SOFT
+                <span class="mode-description">Caricias, besos, contacto suave</span>
+            </button>
+            <button onclick="selectMode('sensual')" class="btn btn-mode sensual">
+                🔥 SENSUAL
+                <span class="mode-description">Más atrevido, ropa interior</span>
+            </button>
+            <button onclick="selectMode('hardcore')" class="btn btn-mode hardcore">
+                💥 HARDCORE
+                <span class="mode-description">Sin límites, máxima intensidad</span>
+            </button>
+        </div>
+        <button onclick="backFromModeSelection()" class="btn btn-secondary">Volver</button>
+    </div>
+
+    <!-- Pantalla de Juego -->
+    <div id="game-screen" class="screen">
+        <div class="game-header">
+            <button onclick="backToMenu()" class="btn-back">← Menú</button>
+            <div id="mode-indicator" class="mode-indicator"></div>
+        </div>
+
+        <!-- Cronómetro -->
+        <div id="timer-container" class="timer-container">
+            <div id="timer-display" class="timer-display">0:00</div>
+            <div class="timer-controls">
+                <button id="timer-button" class="btn btn-timer" onclick="togglePause()">⏸ Pausar</button>
+                <button class="btn btn-timer-stop" onclick="stopTimer()">⏹ Detener</button>
+            </div>
+        </div>
+
+        <!-- Ruleta de Jugadores (solo para GRUPO) -->
+        <div id="player-wheel-container" class="player-wheel-container">
+            <div class="player-wheel-title">¿Quién es el siguiente?</div>
+            <div id="player-wheel" class="player-wheel">
+                <div id="player-wheel-name" class="player-wheel-name">🎲</div>
+            </div>
+            <button onclick="selectRandomPlayer()" class="btn btn-spin">🎰 Girar Ruleta</button>
+        </div>
+
+        <!-- Ruleta -->
+        <div id="wheel" class="wheel">
+            <div class="wheel-spinner">🎰</div>
+        </div>
+
+        <!-- Reto/Verdad -->
+        <div id="challenge-text" class="challenge-text"></div>
+
+        <!-- Botón de inicio de cronómetro -->
+        <button id="timer-start-btn" class="btn btn-timer-start">
+            ⏱️ Iniciar Cronómetro
+        </button>
+
+        <!-- Botón Siguiente -->
+        <button onclick="spinWheel()" class="btn btn-primary btn-next">
+            Siguiente Reto
+        </button>
+    </div>
+
+    <script src="challenges.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // Habilitar botón solo si checkbox está marcado
+        document.getElementById('consent-check').addEventListener('change', function() {
+            document.getElementById('accept-btn').disabled = !this.checked;
+        });
+    </script>
+</body>
+</html>
